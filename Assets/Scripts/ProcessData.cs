@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System.Globalization;
+using System; 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -67,11 +70,13 @@ public class ProcessData : MonoBehaviour
                 timeIntervals[i] = data[1].Trim();
                 eventCodes[i] = int.Parse(data[2].Trim());
                 eventCodeDescriptions[i] = data[3].Trim();
-                windSpeeds[i] = float.Parse(data[4].Trim());
-                ambientTemperatures[i] = float.Parse(data[5].Trim());
-                rotorSpeeds[i] = float.Parse(data[6].Trim());
-                powers[i] = float.Parse(data[7].Trim());
+                windSpeeds[i] = float.Parse(data[4].Trim(),CultureInfo.InvariantCulture.NumberFormat);
+                ambientTemperatures[i] = float.Parse(data[5].Trim(),CultureInfo.InvariantCulture.NumberFormat);
+                rotorSpeeds[i] = float.Parse(data[6].Trim(),CultureInfo.InvariantCulture.NumberFormat);
+                powers[i] = float.Parse(data[7].Trim(),CultureInfo.InvariantCulture.NumberFormat);
             }
+
+
 
             TurbineData turbineData = new TurbineData
             {

@@ -37,9 +37,9 @@ public class MainController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        VueController.Instance.setWindPower(AveragePower(VueController.Instance.SliderValue).ToString());
-        VueController.Instance.setWindSpeed(AverageWindSpeed(VueController.Instance.SliderValue).ToString());
-        VueController.Instance.setRotorSpeed(AverageRotorSpeed(VueController.Instance.SliderValue).ToString());
+        VueController.Instance.setWindPower(AveragePower(VueController.Instance.SliderValue).ToString() + " KW");
+        VueController.Instance.setWindSpeed(AverageWindSpeed(VueController.Instance.SliderValue).ToString()+ " tr/min");
+        VueController.Instance.setRotorSpeed(AverageRotorSpeed(VueController.Instance.SliderValue).ToString() + " tr/min");
         drawGraph();
         if (turbineId == "T00"){
             VueController.Instance.setTitre("Toutes les éoliennes");
@@ -209,7 +209,7 @@ public class MainController : MonoBehaviour
             if (!draw.ContainsKey(interString)){  //Si le temps n'existe pas 
                 var inter = DateTime.ParseExact(interString,"HH:mm",CultureInfo.InvariantCulture); // On récupère la première interval de temps  
                 temps.Add(inter);  
-                draw.Add(interString, new List<float>());  //Creation d'une nouvelle ligne à la dico
+                draw.Add(interString, new List<float>());  //Création d'une nouvelle ligne à la dico
             }
             draw[interString].Add(float.Parse(data[7][i],CultureInfo.InvariantCulture.NumberFormat));  //ajoute la valeur à la ligne  - le interString c'est comme un i 
         }

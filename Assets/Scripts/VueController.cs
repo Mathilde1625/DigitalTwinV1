@@ -25,6 +25,7 @@ public class VueController : MonoBehaviour
     public Slider slider; 
 
     public float SliderValue = 0.0f;
+    public Light directionalLight;
 
     
     // Start is called before the first frame update
@@ -99,10 +100,27 @@ public class VueController : MonoBehaviour
 
     public void getTime (float time){
         TempsText.text = convertIntToTime(time);
-    }
+    } 
 
     public void getSliderValueChanged (float Iwant){ 
+
         SliderValue = Iwant; 
+        // print ("ccc"); 
+
+        // if (Iwant >= 21f)
+        // {
+        //     float t = Mathf.InverseLerp(21f, 24f, Iwant);
+        //     directionalLight.intensity = Mathf.Lerp(1.0f, 0.0f, t);
+        //     directionalLight.color = Color.Lerp(Color.white, new Color(1f, 0.5f, 0.2f), t); // Blanc vers orange
+        //     print("aaa");
+        // }
+        // else
+        // {
+        //     directionalLight.intensity = 1.0f;
+        //     directionalLight.color = Color.white; // Lumière normale en journée
+        //     print("bbb");
+        // }
+
     }
 
     public void getTitre (string titre){

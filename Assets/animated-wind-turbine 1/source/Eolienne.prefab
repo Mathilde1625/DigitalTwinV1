@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turbineID: 
-  turbineDataContainer: {fileID: 11400000, guid: bb9c3c6670e564d4cba437e2d413fa11, type: 2}
+  turbineDataContainer: {fileID: 11400000, guid: 88f9cbb5b300f54418bdef2b45268aa1, type: 2}
   windmillBlades: {fileID: 519542874318501614}
   rotationAxis: {x: 0, y: 1, z: 0}
 --- !u!114 &8028738261238288798

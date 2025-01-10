@@ -199,7 +199,7 @@ public class MainController : MonoBehaviour
     public void drawGraphAverage (){
         List <DateTime> temps = new List<DateTime>();
         List <float> average = new List<float>(); 
-        var draw = new Dictionary <string, List<float>>(); //Création d'un dictionary de string et d'un list de float
+        var draw = new Dictionary <string, List<float>>(); //Création d'un dictionary de string et d'une liste de float
             
         for (int i = 0; i <data[7].Count; i++){
             
@@ -208,9 +208,9 @@ public class MainController : MonoBehaviour
             interString  = interString.Substring(1, interString.Length-1);
 
             if (!draw.ContainsKey(interString)){  //Si le temps n'existe pas 
-                var inter = DateTime.ParseExact(interString,"HH:mm",CultureInfo.InvariantCulture); // On récupère la première interval de temps  
+                var inter = DateTime.ParseExact(interString,"HH:mm",CultureInfo.InvariantCulture); // On récupère la première intervale de tmp  
                 temps.Add(inter);  
-                draw.Add(interString, new List<float>());  //Création d'une nouvelle ligne à la dico
+                draw.Add(interString, new List<float>());  //Création d'une nouvelle ligne au dictionary
             }
             draw[interString].Add(float.Parse(data[7][i],CultureInfo.InvariantCulture.NumberFormat));  
         }

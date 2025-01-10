@@ -74,7 +74,7 @@ public class WindmillManager : MonoBehaviour
         if (parts.Length != 2)
         {
             Debug.LogWarning($"Invalid time interval format: {timeInterval}. Defaulting to 1 second.");
-            return 1f; // Default to 1 second if parsing fails
+            return 1f; 
         }
 
         float startSeconds = TimeToSeconds(parts[0]);
@@ -98,15 +98,15 @@ public class WindmillManager : MonoBehaviour
         if (timeParts.Length == 3)
         {
             // HH:mm:ss format
-            seconds += int.Parse(timeParts[0]) * 3600; // Hours to seconds
-            seconds += int.Parse(timeParts[1]) * 60;   // Minutes to seconds
-            seconds += int.Parse(timeParts[2]);       // Seconds
+            seconds += int.Parse(timeParts[0]) * 3600; 
+            seconds += int.Parse(timeParts[1]) * 60;   
+            seconds += int.Parse(timeParts[2]);       
         }
         else if (timeParts.Length == 2)
         {
             // mm:ss format
-            seconds += int.Parse(timeParts[0]) * 60;   // Minutes to seconds
-            seconds += int.Parse(timeParts[1]);       // Seconds
+            seconds += int.Parse(timeParts[0]) * 60;   
+            seconds += int.Parse(timeParts[1]);       
         }
 
         return seconds;
@@ -115,13 +115,13 @@ public class WindmillManager : MonoBehaviour
     // Method to handle user input or time interval changes
     private void CheckForTimeIntervalChange()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow)) // Example: Go to the next time interval
+        if (Input.GetKeyDown(KeyCode.UpArrow)) 
         {
             currentIntervalIndex = (currentIntervalIndex + 1) % turbineData.timeIntervals.Length;
             Debug.Log($"Time interval changed to {turbineData.timeIntervals[currentIntervalIndex]}");
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow)) // Example: Go to the previous time interval
+        if (Input.GetKeyDown(KeyCode.DownArrow)) 
         {
             currentIntervalIndex = (currentIntervalIndex - 1 + turbineData.timeIntervals.Length) % turbineData.timeIntervals.Length;
             Debug.Log($"Time interval changed to {turbineData.timeIntervals[currentIntervalIndex]}");

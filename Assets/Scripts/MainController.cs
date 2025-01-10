@@ -40,6 +40,7 @@ public class MainController : MonoBehaviour
         VueController.Instance.setWindPower(AveragePower(VueController.Instance.SliderValue).ToString() + " KW");
         VueController.Instance.setWindSpeed(AverageWindSpeed(VueController.Instance.SliderValue).ToString()+ " tr/min");
         VueController.Instance.setRotorSpeed(AverageRotorSpeed(VueController.Instance.SliderValue).ToString() + " tr/min");
+        VueController.Instance.setTemperature(AverageTemperature(VueController.Instance.SliderValue).ToString() + " °C");
         drawGraph();
         if (turbineId == "T00"){
             VueController.Instance.setTitre("Toutes les éoliennes");
@@ -71,12 +72,12 @@ public class MainController : MonoBehaviour
             var data_values = data_String.Split(','); // Séparation du fichier CSV 
             
 
-            for (int i = 0; i <data_values.Length; i++){  //remplissage des colonnes avec les datas 
+            for (int i = 0; i <data_values.Length; i++){  //Remplissage des colonnes avec les datas 
                 data[i].Add(data_values[i]);
             }
 
         }
-        for (int i = 0; i<data.Count; i ++){  //Delete la première ligne
+        for (int i = 0; i<data.Count; i ++){  //Supprimer la première ligne
                 data[i].RemoveAt(0);
                
         }
@@ -100,7 +101,7 @@ public class MainController : MonoBehaviour
             else 
             {
                 for (int i = 0; i< data[7].Count; i ++){               
-                    var a = float.Parse(data[7][i],CultureInfo.InvariantCulture.NumberFormat);   // Mettre une condition pour filtrer par l'id ; attention pas de filtre si id = -1
+                    var a = float.Parse(data[7][i],CultureInfo.InvariantCulture.NumberFormat);   
                     l.Add(a);
                 }
             }
@@ -110,7 +111,7 @@ public class MainController : MonoBehaviour
         }
 
         else {
-            var t = " " + convertIntToTime(time); // TEMPS DE SLIDER EN STRING    
+            var t = " " + convertIntToTime(time);     
             
             List <float> l = new List<float>();
             if (turbineId  != "T00" )
@@ -129,7 +130,7 @@ public class MainController : MonoBehaviour
             {
                 for (int i = 0; i <data[7].Count; i++){
 
-                    var inter = data[1][i].Split("-")[0]; // On récupère la premier interval de temps 
+                    var inter = data[1][i].Split("-")[0]; 
                     if (string.Equals(inter, t)) 
                     {   
                     
@@ -140,7 +141,7 @@ public class MainController : MonoBehaviour
             
             return CalculAverage(l); 
         }
-        return -1f; 
+         
     }
 
     public float CalculAverage (List<float> l){
@@ -154,12 +155,12 @@ public class MainController : MonoBehaviour
     }
 
     public string convertIntToTime(float t ){  //Fonction qui convertie les valeurs du slider
-        string a = ""+System.Math.Floor(((t%1)*60)/10)*10;  // "" permet de convertir en String
+        string a = ""+System.Math.Floor(((t%1)*60)/10)*10;  
         string s = (int)t + ":" +System.Math.Floor(((t%1)*60)/10)*10;
-        if ((""+(int)t).Length == 1)  // 01:xx
+        if ((""+(int)t).Length == 1)  
             s = "0" + s;
 
-        if (a.Length == 1){  //regarder la taille du string 
+        if (a.Length == 1){  
             s =  s + "0";
         }
         return s; 
@@ -184,7 +185,7 @@ public class MainController : MonoBehaviour
 
                         var a = data[1][i].Split("-")[0];
                         a  = a.Substring(1, a.Length-1);
-                        var inter = DateTime.ParseExact(a,"HH:mm",CultureInfo.InvariantCulture); // On récupère la première intervale de temps 
+                        var inter = DateTime.ParseExact(a,"HH:mm",CultureInfo.InvariantCulture);  
                         
 
                         temps.Add(inter);
@@ -198,7 +199,7 @@ public class MainController : MonoBehaviour
     public void drawGraphAverage (){
         List <DateTime> temps = new List<DateTime>();
         List <float> average = new List<float>(); 
-        var draw = new Dictionary <string, List<float>>(); //creation d'un dico de string et de list de float
+        var draw = new Dictionary <string, List<float>>(); //Création d'un dictionary de string et d'un list de float
             
         for (int i = 0; i <data[7].Count; i++){
             
@@ -211,7 +212,7 @@ public class MainController : MonoBehaviour
                 temps.Add(inter);  
                 draw.Add(interString, new List<float>());  //Création d'une nouvelle ligne à la dico
             }
-            draw[interString].Add(float.Parse(data[7][i],CultureInfo.InvariantCulture.NumberFormat));  //ajoute la valeur à la ligne  - le interString c'est comme un i 
+            draw[interString].Add(float.Parse(data[7][i],CultureInfo.InvariantCulture.NumberFormat));  
         }
         foreach (KeyValuePair<string, List <float> > line in draw)  
         {  
@@ -229,7 +230,7 @@ public class MainController : MonoBehaviour
                 { 
                     for (int i = 0; i < data[0].Count ; i++ ){
                         if (data[0][i]==turbineId){
-                            var a = float.Parse(data[4][i],CultureInfo.InvariantCulture.NumberFormat);   // Mettre une condition pour filtrer par l'id ; attention pas de filtre si id = -1
+                            var a = float.Parse(data[4][i],CultureInfo.InvariantCulture.NumberFormat);   
                             l.Add(a);
                         }
                     }
@@ -237,7 +238,7 @@ public class MainController : MonoBehaviour
                 else 
                 {
                     for (int i = 0; i< data[7].Count; i ++){               
-                        var a = float.Parse(data[4][i],CultureInfo.InvariantCulture.NumberFormat);   // Mettre une condition pour filtrer par l'id ; attention pas de filtre si id = -1
+                        var a = float.Parse(data[4][i],CultureInfo.InvariantCulture.NumberFormat);  
                         l.Add(a);
                     }
                 }
@@ -247,14 +248,14 @@ public class MainController : MonoBehaviour
             }
 
             else {
-                var t = " " + convertIntToTime(time); // TEMPS DE SLIDER EN STRING    
+                var t = " " + convertIntToTime(time);     
                 
                 List <float> l = new List<float>();
                 if (turbineId  != "T00" )
                 { 
                     for (int i = 0; i <data[7].Count; i++){
 
-                        var inter = data[1][i].Split("-")[0]; // On récupère la premier interval de temps 
+                        var inter = data[1][i].Split("-")[0];  
                         if (string.Equals(inter, t) && data[0][i] == turbineId) 
                         {   
                         
@@ -266,7 +267,7 @@ public class MainController : MonoBehaviour
                 {
                     for (int i = 0; i <data[7].Count; i++){
 
-                        var inter = data[1][i].Split("-")[0]; // On récupère la premier interval de temps 
+                        var inter = data[1][i].Split("-")[0];  
                         if (string.Equals(inter, t)) 
                         {   
                         
@@ -277,7 +278,7 @@ public class MainController : MonoBehaviour
                 
                 return CalculAverage(l); 
             }
-            return -1f; 
+            
         }
 
 
@@ -290,15 +291,14 @@ public class MainController : MonoBehaviour
                 { 
                     for (int i = 0; i < data[0].Count ; i++ ){
                         if (data[0][i]==turbineId){
-                            var a = float.Parse(data[6][i],CultureInfo.InvariantCulture.NumberFormat);   // Mettre une condition pour filtrer par l'id ; attention pas de filtre si id = -1
-                            l.Add(a);
+                            var a = float.Parse(data[6][i],CultureInfo.InvariantCulture.NumberFormat);   
                         }
                     }
                 }
                 else 
                 {
                     for (int i = 0; i< data[7].Count; i ++){               
-                        var a = float.Parse(data[6][i],CultureInfo.InvariantCulture.NumberFormat);   // Mettre une condition pour filtrer par l'id ; attention pas de filtre si id = -1
+                        var a = float.Parse(data[6][i],CultureInfo.InvariantCulture.NumberFormat);   
                         l.Add(a);
                     }
                 }
@@ -308,14 +308,14 @@ public class MainController : MonoBehaviour
             }
 
             else {
-                var t = " " + convertIntToTime(time); // TEMPS DE SLIDER EN STRING    
+                var t = " " + convertIntToTime(time);     
                 
                 List <float> l = new List<float>();
                 if (turbineId  != "T00" )
                 { 
                     for (int i = 0; i <data[7].Count; i++){
 
-                        var inter = data[1][i].Split("-")[0]; // On récupère la premier interval de temps 
+                        var inter = data[1][i].Split("-")[0]; 
                         if (string.Equals(inter, t) && data[0][i] == turbineId) 
                         {   
                         
@@ -327,7 +327,7 @@ public class MainController : MonoBehaviour
                 {
                     for (int i = 0; i <data[7].Count; i++){
 
-                        var inter = data[1][i].Split("-")[0]; // On récupère la premier interval de temps 
+                        var inter = data[1][i].Split("-")[0];  
                         if (string.Equals(inter, t)) 
                         {   
                         
@@ -338,7 +338,67 @@ public class MainController : MonoBehaviour
                 
                 return CalculAverage(l); 
             }
-            return -1f; 
+            
+        }
+
+
+
+  public float AverageTemperature(float time){
+            if (time == 0.0f ){
+                List <float> l = new List<float>();
+                
+                if (turbineId  != "T00" )
+                { 
+                    for (int i = 0; i < data[0].Count ; i++ ){
+                        if (data[0][i]==turbineId){
+                            var a = float.Parse(data[5][i],CultureInfo.InvariantCulture.NumberFormat);   
+                        }
+                    }
+                }
+                else 
+                {
+                    for (int i = 0; i< data[7].Count; i ++){               
+                        var a = float.Parse(data[5][i],CultureInfo.InvariantCulture.NumberFormat);   
+                        l.Add(a);
+                    }
+                }
+                
+                
+                return CalculAverage(l); 
+            }
+
+            else {
+                var t = " " + convertIntToTime(time);     
+                
+                List <float> l = new List<float>();
+                if (turbineId  != "T00" )
+                { 
+                    for (int i = 0; i <data[7].Count; i++){
+
+                        var inter = data[1][i].Split("-")[0]; 
+                        if (string.Equals(inter, t) && data[0][i] == turbineId) 
+                        {   
+                        
+                            l.Add(float.Parse(data[5][i],CultureInfo.InvariantCulture.NumberFormat));
+                        }
+                    }
+                }
+                else 
+                {
+                    for (int i = 0; i <data[7].Count; i++){
+
+                        var inter = data[1][i].Split("-")[0];  
+                        if (string.Equals(inter, t)) 
+                        {   
+                        
+                            l.Add(float.Parse(data[5][i],CultureInfo.InvariantCulture.NumberFormat));
+                        }
+                    }
+                }
+                
+                return CalculAverage(l); 
+            }
+            
         }
 
 }

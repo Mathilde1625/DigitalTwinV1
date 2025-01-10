@@ -13,6 +13,7 @@ public class VueController : MonoBehaviour
     [SerializeField]
     public TextMeshProUGUI puissanceText; 
     public TextMeshProUGUI windSpeedText; 
+    public TextMeshProUGUI temperatureText; 
 
     public TextMeshProUGUI titreText; 
 
@@ -34,7 +35,7 @@ public class VueController : MonoBehaviour
    
     }
 
-    private void Awake(){        //Des que l'objet est instancié
+    private void Awake(){       
         if (Instance != null && Instance != this){
             Destroy(this);
         }
@@ -57,6 +58,10 @@ public class VueController : MonoBehaviour
         windSpeedText.text = windspeed;
     }
 
+    public void setTemperature(string temperture){
+        temperatureText.text = temperture;
+    }
+
 
     public void setRotorSpeed(string rotorspeed){
         rotorspeedText.text = rotorspeed;
@@ -73,12 +78,17 @@ public class VueController : MonoBehaviour
         titreText.text = titre;
     }
 
+
+
+
     public void setGraphChart (  List <DateTime> temps, List <float> power){
         chart.DataSource.StartBatch();
         chart.DataSource.ClearCategory("TUTO"); 
+        // chart.DataSource.AddCategory("TUTO");
 
         for (int i = 0; i<temps.Count; i++)
         {
+            
             chart.DataSource.AddPointToCategory("TUTO",temps[i],power[i]); 
         }
 
@@ -88,9 +98,11 @@ public class VueController : MonoBehaviour
     public void setGraphChartAverage (  List <DateTime> temps, List <float> average){
         chart.DataSource.StartBatch();
         chart.DataSource.ClearCategory("Average"); 
+        //  chart.DataSource.AddCategory("Average");
 
         for (int i = 0; i<temps.Count; i++)
         {
+           
             chart.DataSource.AddPointToCategory("Average",temps[i],average[i]); 
         }
 
@@ -102,38 +114,54 @@ public class VueController : MonoBehaviour
         TempsText.text = convertIntToTime(time);
     } 
 
-    public void getSliderValueChanged (float Iwant){ 
+    public void getSliderValueChanged(float Iwant)
+{
+    SliderValue = Iwant;
+    float heurenuit = 19f;
+    float heurenuit2 = 24f;
+    float leverSoleil = 8f;
+    float milieuJournee = 12f;
 
-        SliderValue = Iwant; 
-        // print ("ccc"); 
-
-        // if (Iwant >= 21f)
-        // {
-        //     float t = Mathf.InverseLerp(21f, 24f, Iwant);
-        //     directionalLight.intensity = Mathf.Lerp(1.0f, 0.0f, t);
-        //     directionalLight.color = Color.Lerp(Color.white, new Color(1f, 0.5f, 0.2f), t); // Blanc vers orange
-        //     print("aaa");
-        // }
-        // else
-        // {
-        //     directionalLight.intensity = 1.0f;
-        //     directionalLight.color = Color.white; // Lumière normale en journée
-        //     print("bbb");
-        // }
-
+    if (Iwant >= 19f)
+    {
+        // Transition du coucher du soleil
+        float t = Mathf.InverseLerp(heurenuit, heurenuit2, Iwant);
+        directionalLight.intensity = Mathf.Lerp(1.0f, 0.0f, t);
+        directionalLight.color = Color.Lerp(Color.white, new Color(1f, 0.5f, 0.2f), t); // Blanc vers orange
     }
+    else if (Iwant >= 8f && Iwant < 12f)
+    {
+        // Transition du lever du soleil
+        float t = Mathf.InverseLerp(leverSoleil, milieuJournee, Iwant);
+        directionalLight.intensity = Mathf.Lerp(0.0f, 1.0f, t);
+        directionalLight.color = Color.Lerp(new Color(1f, 0.5f, 0.2f), Color.white, t); // Orange vers blanc
+    }
+    else if (Iwant < 8f)
+    {
+        // Avant 8h, lumière sombre
+        directionalLight.intensity = 0.0f;
+        directionalLight.color = Color.black;
+    }
+    else
+    {
+        // Lumière normale en journée
+        directionalLight.intensity = 1.0f;
+        directionalLight.color = Color.white;
+    }
+}
+
 
     public void getTitre (string titre){
         titreText.text = titre.ToString();
     }
 
-    public string convertIntToTime(float t ){  //Fonction qui convertie les valeurs du slider
-        string a = ""+System.Math.Floor(((t%1)*60)/10)*10;  // "" permet de convertir en String
+    public string convertIntToTime(float t ){  
+        string a = ""+System.Math.Floor(((t%1)*60)/10)*10;  
         string s = (int)t + ":" +System.Math.Floor(((t%1)*60)/10)*10;
         if ((""+(int)t).Length == 1) // 01:xx
             s = "0" + s;
 
-        if (a.Length == 1){  //regarder la taille du string 
+        if (a.Length == 1){  
             s =  s + "0";
         }
         return s; 
